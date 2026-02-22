@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Predictor</title>
+    <style>
+        /* CSS Reset for consistent spacing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body and Background Styling */
+        body {
+            /* Background image (stored under static/DProject/images/ii.jpg) */
+            background-image: url("{% static 'DProject/images/ii.jpg' %}");
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Keep image fixed on scroll */
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Main Form Container */
+        .form-container {
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            /* Original background was too solid for blur effect, adjusted */
+            background-color: rgba(255, 255, 255, 0.2); /* More transparent background */
+            padding: 40px; /* Added some padding for better appearance with blur */
+            border-radius: 15px; /* Slightly more rounded corners */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+            
+            /* Add blur effect */
+            backdrop-filter: blur(10px); /* Blurs content behind this element */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border for glass effect */
+        }
+
+        /* Header Styling - adjusted for contrast against new background */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: rgb(245, 241, 241); /* Keep white for contrast */
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); /* Stronger shadow for readability */
+        }
+
+        .header p {
+            color: rgb(251, 248, 248); /* Keep white for contrast */
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Stronger shadow for readability */
+        }
+
+        /* Input Fields */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.4); /* Slightly softer border */
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.85); /* Slightly more transparent inputs */
+            color: #333; /* Darker text for readability */
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea; /* Highlight with a color from the gradient */
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); /* Coordinated shadow color */
+        }
+
+        input[type="text"]::placeholder {
+            color: #777; /* Slightly darker placeholder */
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            background: #667eea; /* Use primary gradient color for button */
+            color: white; /* White text on colored button */
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px; /* Increased margin for better spacing */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px); /* More pronounced hover effect */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background: #764ba2; /* Hover to other gradient color */
+        }
+
+        /* Result Display */
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: #333; /* Darker text for readability */
+        }
+
+        /* Layout for two columns */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr; /* Stack columns on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <h1>Diabetes Predictor</h1>
+            <p>Enter your health details to check diabetes risk</p>
+        </div>
+
+        <form method="GET" action="">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group">
+            <input type="text" name="preg" placeholder="Pregnancies" required value="{{ request.GET.preg|default:'' }}">
+        </div>
+        <div class="form-group">
+            <input type="text" name="glucose" placeholder="Glucose Level" required value="{{ request.GET.glucose|default:'' }}">
+        </div>
+    </div>
+    
+    <div class="form-row">
+        <div class="form-group">
+            <input type="text" name="bp" placeholder="Blood Pressure" required value="{{ request.GET.bp|default:'' }}">
+        </div>
+        <div class="form-group">
+            <input type="text" name="skin" placeholder="Skin Thickness" required value="{{ request.GET.skin|default:'' }}">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <input type="text" name="insulin" placeholder="Insulin" required value="{{ request.GET.insulin|default:'' }}">
+        </div>
+        <div class="form-group">
+            <input type="text" name="bmi" placeholder="BMI" required value="{{ request.GET.bmi|default:'' }}">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <input type="text" name="dpf" placeholder="Diabetes Pedigree" required value="{{ request.GET.dpf|default:'' }}">
+        </div>
+        <div class="form-group">
+            <input type="text" name="age" placeholder="Age" required value="{{ request.GET.age|default:'' }}">
+        </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Check Risk</button>
+</form>
+        {% if resultx %}
+        <div class="result">
+            <h3>Prediction Result: {{ resultx }}</h3>
+            <!-- Check Again button: clears GET params by navigating to the page path -->
+            <button type="button" class="submit-btn" id="check-again-btn" style="width:auto; padding:12px 18px; margin-top:12px;">Check Again</button>
+        </div>
+        <script>
+        // Only add the listener when the element exists (this script is rendered only when resultx is present)
+        (function(){
+            var btn = document.getElementById('check-again-btn');
+            if(btn){
+                btn.addEventListener('click', function(){
+                    // Navigate to the same path without query string to reset the form values
+                    window.location.href = window.location.pathname;
+                });
+            }
+        })();
+        </script>
+        {% endif %}
+        
+    </div>
+    
+</body>
+</html>
+
+
+
+
+
